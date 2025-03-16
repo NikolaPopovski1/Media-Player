@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <None Remove="Videos\Deagle3k.mp4" />
     <None Remove="Videos\Glock4k.mp4" />
     <None Remove="Videos\InfernoACE.mp4" />
@@ -18,6 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Font Awesome 6 Free Solid 900.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Videos\Deagle3k.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -33,6 +37,10 @@
     <Content Include="Videos\Usp4k.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Fonts\" />
   </ItemGroup>
 
 </Project>

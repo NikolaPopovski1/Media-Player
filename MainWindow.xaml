@@ -6,7 +6,7 @@
         Background="#1E1E1E">
 
     <Window.Resources>
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+        <Style TargetType="Button">
             <Setter Property="Background" Value="#333"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -38,61 +38,92 @@
             </Setter>
         </Style>
 
-        <Style x:Key="TopMenuButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
+        <Style TargetType="Menu">
+            <Setter Property="Background" Value="#2B2B2B"/>
             <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Padding" Value="5"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="Width" Value="60"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="5" Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <ControlTemplate TargetType="Menu">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ItemsPresenter Margin="5"/>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#444"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#555"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="#2B2B2B"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="5"/>
+            
+        </Style>
+
     </Window.Resources>
 
     <DockPanel>
         <Grid DockPanel.Dock="Top" Background="#2C2C2C" Height="40" MouseDown="TitleBar_MouseDown">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <Button Content="Play" Style="{StaticResource TopMenuButtonStyle}"/>
-                <Button Content="Pause"  Style="{StaticResource TopMenuButtonStyle}"/>
-                <Button Content="Stop"  Style="{StaticResource TopMenuButtonStyle}"/>
+                <Menu>
+                    <MenuItem Header="Meni" Click="MenuItem_Click_Meni">
+                        <MenuItem Header="Datoteka" Click="Izhod_Click" />
+                        <MenuItem Header="Izhod"/>
+                    </MenuItem>
+                </Menu>
+                <Menu>
+                    <MenuItem Header="Seznam" Click="MenuItem_Click_Seznam">
+                        <MenuItem Header="Dodaj statično"/>
+                        <MenuItem Header="Uredi statično"/>
+                        <MenuItem Header="Dodaj"/>
+                        <MenuItem Header="Uredi"/>
+                        <MenuItem Header="Odstrani"/>
+                    </MenuItem>
+                </Menu>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Style="{StaticResource PrimaryButtonStyle}" Content="_" Width="30" Height="30" Padding="0" Click="MinimizeButton_Click" />
-                <Button Style="{StaticResource PrimaryButtonStyle}" Content="□" Width="30" Height="30" Padding="0" Click="MaximizeButton_Click" />
-                <Button Style="{StaticResource PrimaryButtonStyle}" Content="X" Width="30" Height="30" Padding="0" Background="Red" Click="CloseButton_Click"/>
+                <Button Content="_" Width="30" Height="30" Padding="0" Click="MinimizeButton_Click" />
+                <Button Content="□" Width="30" Height="30" Padding="0" Click="MaximizeButton_Click" />
+                <Button Content="X" Width="30" Height="30" Padding="0" Background="Red" Click="CloseButton_Click"/>
             </StackPanel>
         </Grid>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
-            <Button Style="{StaticResource PrimaryButtonStyle}" Content="Play"/>
-            <Button Style="{StaticResource PrimaryButtonStyle}" Content="Pause"/>
-            <Button Style="{StaticResource PrimaryButtonStyle}" Content="Stop"/>
+            <Button Name="RepeatButton" Click="RepeatButton_Click"
+                FontFamily="Segoe MDL2 Assets" FontSize="24"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="RepeatIconText" Text="&#xE8EE;" />
+            </Button>
+            <Button Name="BackButto" Click="BackButton_Click"
+                FontFamily="Segoe MDL2 Assets" FontSize="24"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="BackIconText" Text="&#xF8AC;" />
+            </Button>
+            <Button Name="nPlayPauseButton" Click="PlayPauseButton_Click"
+                FontFamily="Segoe MDL2 Assets" FontSize="24"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="PlayPauseIconText" Text="&#xE768;" />
+            </Button>
+            <Button Name="ForwardButton" Click="ForwardButton_Click"
+                FontFamily="Segoe MDL2 Assets" FontSize="24"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="ForwardIconText" Text="&#xF8AD;" />
+            </Button>
+            <Button Name="ShuffleButton" Click="ShuffleButton_Click"
+                FontFamily="Segoe MDL2 Assets" FontSize="24"
+                HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Name="ShuffleIconText" Text="&#xE8B1;" />
+            </Button>
+            <Label Content="Time" DockPanel.Dock="Bottom" VerticalAlignment="Center" Foreground="White" />
+            <!--<Button Style="{StaticResource PrimaryButtonStyle}" Content="&#xf050;" />-->
         </StackPanel>
-        <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
-            <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="White" Margin="0,10,0,10" Text="Videos"/>
+        <StackPanel DockPanel.Dock="Left" Background="#2B2B2B" Width="250">
+            <TextBlock Text="Videos" FontSize="16" Foreground="White" 
+               HorizontalAlignment="Center" Margin="5"/>
+            <ListView Name="VideoListView" Background="#333" Foreground="White" BorderThickness="0" SelectionChanged="VideoListView_SelectionChanged" />
         </StackPanel>
         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
             <TextBlock DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="White" Margin="0,10,0,10" Text="Properties"/>
