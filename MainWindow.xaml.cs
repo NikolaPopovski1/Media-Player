@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Media_Player
 {
@@ -8,6 +9,9 @@ namespace Media_Player
     {
         private bool isPlaying = true;
         private string videoDirectory = "./Videos/";
+        string[] parts;
+        List<VideoFile> videoList = new List<VideoFile>();
+        private MediaElement placeholder;
         public MainWindow()
         {
             InitializeComponent();
@@ -25,10 +29,23 @@ namespace Media_Player
                 .Where(f => f.EndsWith(".mp4") || f.EndsWith(".avi") || f.EndsWith(".mkv"))
                 .ToArray();
 
-            VideoListView.Items.Clear();
+            VideoListView.Items.Clear(); 
+            
             foreach (var file in videoFiles)
             {
-                VideoListView.Items.Add(Path.GetFileName(file));
+                VideoFile video = new VideoFile();
+                parts = file.Replace("./Videos/", "").Split(new[] { '.' }, 2);
+                placeholder = new MediaElement();
+                placeholder.Source = new Uri(file);
+                video.Name = parts[0];
+                video.Path = file;
+                video.Thumbnail = file;
+                video.Duration = (int)placeholder.NaturalDuration.TimeSpan.TotalSeconds;
+                video.FileType = parts[1];
+                video.Size = (int)new FileInfo(file).Length;
+                videoList.Add(video);
+                placeholder.Close();
+                //VideoListView.Items.Add(video.Name);
             }
         }
 
@@ -36,8 +53,11 @@ namespace Media_Player
         {
             if (VideoListView.SelectedItem != null)
             {
-                string selectedVideo = Path.Combine(videoDirectory, VideoListView.SelectedItem.ToString());
-                MessageBox.Show($"Selected Video: {selectedVideo}");
+                // string selectedVideo = Path.Combine(videoDirectory, VideoListView.SelectedItem.ToString());
+                // MessageBox.Show($"Selected Video: {selectedVideo}");
+                // PropertiesTextBlock.Text = $"Name: {selectedVideo}\nPath: {selectedVideo}\nThumbnail: {selectedVideo}\nDuration: {selectedVideo}\nFile Type: {selectedVideo}\nSize: {selectedVideo}";
+
+
             }
         }
 
@@ -103,6 +123,14 @@ namespace Media_Player
             isPlaying = !isPlaying;
             PlayPauseIconText.Text = isPlaying ? "\uE768" : "\uE769"; // Pause = ⏸, Play = ▶
             //PlayPauseIconText.Text = isPlaying ? "\uF8AE" : "\uF5B0"; // Pause = ⏸, Play = ▶ bold
+            if (isPlaying)
+            {
+                VideoPlayer.Play();
+            }
+            else
+            {
+                VideoPlayer.Pause();
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -123,6 +151,11 @@ namespace Media_Player
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void VideoSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            VideoPlayer.Position = TimeSpan.FromSeconds(VideoSlider.Value);
         }
     }
 }
