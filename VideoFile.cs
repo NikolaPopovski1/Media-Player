@@ -9,12 +9,12 @@ using System.Windows.Media;
 
 namespace Media_Player
 {
-    class VideoFile : INotifyPropertyChanged
+    public class VideoFile : INotifyPropertyChanged
     {
         private string name;
         private string path;
         private string thumbnail;
-        private int duration;
+        private string lastModified;
         private string fileType;
         private int size;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -50,12 +50,12 @@ namespace Media_Player
                 OnPropertyChanged();
             }
         }
-        public int Duration
+        public string LastModified
         {
-            get { return duration; }
+            get { return lastModified; }
             set
             {
-                duration = value;
+                lastModified = value;
                 OnPropertyChanged();
             }
         }

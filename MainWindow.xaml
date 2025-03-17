@@ -107,7 +107,7 @@
                 HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Name="RepeatIconText" Text="&#xE8EE;" />
             </Button>
-            <Button Name="BackButto" Click="BackButton_Click"
+            <Button Name="BackButton" Click="BackButton_Click"
                 FontFamily="Segoe MDL2 Assets" FontSize="16"
                 HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Name="BackIconText" Text="&#xF8AC;" />
@@ -134,11 +134,13 @@
             <TextBlock Text="Videos" FontSize="16" Foreground="White" 
                HorizontalAlignment="Center" Margin="5"/>
             <ListView Name="VideoListView" Background="#333" Foreground="White" 
-                      BorderThickness="0" ItemsSource="{Binding Videos, UpdateSourceTrigger=PropertyChanged}"
-                      SelectionChanged="VideoListView_SelectionChanged"/>
+                      BorderThickness="0" ItemsSource="{Binding VideoList, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Name" SelectionChanged="VideoListView_SelectionChanged"/>
         </StackPanel>
         
-        <TextBlock Name="PropertiesTextBlock" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="White" Margin="10" Text="Sumn"/>
+        <TextBlock Name="PropertiesTextBlock" DockPanel.Dock="Right" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   FontSize="10" Foreground="White" Margin="10" Text="Sumn"/>
         
         <MediaElement Name="VideoPlayer" DockPanel.Dock="Top" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
     </DockPanel>

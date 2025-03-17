@@ -1,24 +1,41 @@
-﻿using System.IO;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Media_Player
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private bool isPlaying = true;
         private string videoDirectory = "./Videos/";
         string[] parts;
-        List<VideoFile> videoList = new List<VideoFile>();
         private MediaElement placeholder;
+        private ObservableCollection<VideoFile> videoList = new ObservableCollection<VideoFile>();
+
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             LoadVideoList();
         }
 
+        public ObservableCollection<VideoFile> VideoList
+        {
+            get { return videoList; }
+            set
+            {
+                videoList = value;
+                OnPropertyChanged(nameof(VideoList));
+            }
+        }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void LoadVideoList()
         {
@@ -29,39 +46,65 @@ namespace Media_Player
                 .Where(f => f.EndsWith(".mp4") || f.EndsWith(".avi") || f.EndsWith(".mkv"))
                 .ToArray();
 
-            VideoListView.Items.Clear(); 
-            
+            VideoList.Clear();
+
             foreach (var file in videoFiles)
             {
                 VideoFile video = new VideoFile();
                 parts = file.Replace("./Videos/", "").Split(new[] { '.' }, 2);
                 placeholder = new MediaElement();
-                placeholder.Source = new Uri(file);
+                placeholder.Source = new Uri(Path.GetFullPath(file));
                 video.Name = parts[0];
                 video.Path = file;
-                video.Thumbnail = file;
-                video.Duration = (int)placeholder.NaturalDuration.TimeSpan.TotalSeconds;
+                video.Thumbnail = "./Thumbnails/" + parts[0] + ".png";
+                video.LastModified = File.GetLastWriteTime(file).ToString();
                 video.FileType = parts[1];
                 video.Size = (int)new FileInfo(file).Length;
                 videoList.Add(video);
-                placeholder.Close();
                 //VideoListView.Items.Add(video.Name);
             }
         }
 
-        private void VideoListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FindAndPlayVideo(VideoFile videoFile)
         {
-            if (VideoListView.SelectedItem != null)
+            foreach (var video in VideoList)
             {
-                // string selectedVideo = Path.Combine(videoDirectory, VideoListView.SelectedItem.ToString());
-                // MessageBox.Show($"Selected Video: {selectedVideo}");
-                // PropertiesTextBlock.Text = $"Name: {selectedVideo}\nPath: {selectedVideo}\nThumbnail: {selectedVideo}\nDuration: {selectedVideo}\nFile Type: {selectedVideo}\nSize: {selectedVideo}";
+                if (video.Name[0] == videoFile.Name[0])
+                {
+                    if(video.Name == videoFile.Name)
+                    {
+                        VideoPlayer.Source = new Uri(Path.GetFullPath(video.Path));
+                        VideoPlayer.Play();
+                        isPlaying = true;
+                        PlayPauseIconText.Text = "\uE769";
 
-
+                        SetProperties(video);
+                        break;
+                    }
+                }
             }
         }
 
+        private void SetProperties(VideoFile videoFile)
+        {
+            PropertiesTextBlock.Text = $"Name: {videoFile.Name}\n" +
+                $"\nPath: {videoFile.Path}\n" +
+                $"\nThumbnail: {videoFile.Thumbnail}\n" +
+                $"\nLast Modified: {videoFile.LastModified}\n" +
+                $"\nFile Type: {videoFile.FileType}\n" +
+                $"\nSize: {videoFile.Size / 1024 / 1024} MB";
+        }
 
+
+        private void VideoListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (VideoListView.SelectedItem != null && VideoListView.SelectedItem is VideoFile selectedVideoFile)
+            {
+                string selectedVideo = Path.Combine(videoDirectory, selectedVideoFile.Name);
+                MessageBox.Show($"Selected Video: {selectedVideo}");
+                FindAndPlayVideo(selectedVideoFile);
+            }
+        }
 
         // Minimize Button Click Event Handler
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -121,7 +164,7 @@ namespace Media_Player
         private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
             isPlaying = !isPlaying;
-            PlayPauseIconText.Text = isPlaying ? "\uE768" : "\uE769"; // Pause = ⏸, Play = ▶
+            PlayPauseIconText.Text = isPlaying ? "\uE769" : "\uE768"; // Pause = ⏸, Play = ▶
             //PlayPauseIconText.Text = isPlaying ? "\uF8AE" : "\uF5B0"; // Pause = ⏸, Play = ▶ bold
             if (isPlaying)
             {
