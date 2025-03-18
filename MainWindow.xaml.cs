@@ -9,6 +9,8 @@ namespace Media_Player
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private bool isPlaying = true;
+        private bool isRepeating = false;
+        private bool isShuffling = false;
         private string videoDirectory = "./Videos/";
         string[] parts;
         private MediaElement placeholder;
@@ -75,6 +77,27 @@ namespace Media_Player
                     {
                         VideoPlayer.Source = new Uri(Path.GetFullPath(video.Path));
                         VideoPlayer.Play();
+                        // set video on repeat if isRepeating is true
+                        VideoPlayer.MediaEnded += (sender, e) =>
+                        {
+                            if (isRepeating)
+                            {
+                                VideoPlayer.Position = TimeSpan.Zero;
+                                VideoPlayer.Play();
+                            }
+                            else if (isShuffling) // play a random video if isShuffling is true
+                            {
+                                Random random = new Random();
+                                int randomIndex = random.Next(0, VideoList.Count);
+                                while (randomIndex == VideoList.IndexOf(video))
+                                {
+                                    randomIndex = random.Next(0, VideoList.Count);
+                                }
+                                VideoPlayer.Source = new Uri(Path.GetFullPath(VideoList[randomIndex].Path));
+                                VideoPlayer.Play();
+                                VideoListView.SelectedItem = VideoList[randomIndex];
+                            }
+                        };
                         isPlaying = true;
                         PlayPauseIconText.Text = "\uE769";
 
@@ -102,9 +125,19 @@ namespace Media_Player
             {
                 string selectedVideo = Path.Combine(videoDirectory, selectedVideoFile.Name);
                 MessageBox.Show($"Selected Video: {selectedVideo}");
-                FindAndPlayVideo(selectedVideoFile);
             }
         }
+
+        private void VideoListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (VideoListView.SelectedItem is VideoFile selectedVideoFile)
+            {
+                FindAndPlayVideo(selectedVideoFile); // This will play the video when double-clicked
+            }
+        }
+
+
+
 
         // Minimize Button Click Event Handler
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -188,12 +221,43 @@ namespace Media_Player
 
         private void RepeatButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (isShuffling)
+            {
+                MessageBox.Show("Can't repeat when shuffle is on.");
+            }
+            else { 
+                if (isRepeating)
+                {
+                    isRepeating = false;
+                    RepeatIconText.Text = "\uE8EE";
+                }
+                else
+                {
+                    isRepeating = true;
+                    RepeatIconText.Text = "\uF5E7";
+                }
+            }
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (isRepeating)
+            {
+                MessageBox.Show("Can't shuffle when repeat is on.");
+            }
+            else
+            {
+                if (isShuffling)
+                {
+                    isShuffling = false;
+                    ShuffleButton.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(53, 53, 53));
+                }
+                else
+                {
+                    isShuffling = true;
+                    ShuffleButton.Background = System.Windows.Media.Brushes.Green;
+                }
+            }
         }
 
         private void VideoSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

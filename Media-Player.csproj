@@ -12,6 +12,7 @@
   <ItemGroup>
     <None Remove="Fonts\Font Awesome 6 Free-Solid-900.otf" />
     <None Remove="Thumbnails\Deagle3k.png" />
+    <None Remove="Thumbnails\default.jpg" />
     <None Remove="Thumbnails\Glock4k.png" />
     <None Remove="Thumbnails\InfernoACE.png" />
     <None Remove="Thumbnails\Most Insane 1 Shot ACE in CSGO History! [bGcPQ8hdQVg].png" />
@@ -28,6 +29,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="Thumbnails\Deagle3k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thumbnails\default.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Thumbnails\Glock4k.png">

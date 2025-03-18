@@ -74,8 +74,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Menu>
                     <MenuItem Header="Meni" Click="MenuItem_Click_Meni">
-                        <MenuItem Header="Datoteka" Click="Izhod_Click" />
-                        <MenuItem Header="Izhod"/>
+                        <MenuItem Header="Datoteka" />
+                        <MenuItem Header="Izhod" Click="Izhod_Click"/>
                     </MenuItem>
                 </Menu>
                 <Menu>
@@ -135,8 +135,9 @@
                HorizontalAlignment="Center" Margin="5"/>
             <Grid>
                 <ListView Name="VideoListView" Background="#333" Foreground="White" 
-                  BorderThickness="0" ItemsSource="{Binding VideoList}" 
+                  BorderThickness="0" ItemsSource="{Binding VideoList}"
                   SelectionChanged="VideoListView_SelectionChanged"
+                  MouseDoubleClick="VideoListView_MouseDoubleClick"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ListView.ItemTemplate>
                         <DataTemplate>
