@@ -11,6 +11,11 @@
 
   <ItemGroup>
     <None Remove="Fonts\Font Awesome 6 Free-Solid-900.otf" />
+    <None Remove="Thumbnails\Deagle3k.png" />
+    <None Remove="Thumbnails\Glock4k.png" />
+    <None Remove="Thumbnails\InfernoACE.png" />
+    <None Remove="Thumbnails\Most Insane 1 Shot ACE in CSGO History! [bGcPQ8hdQVg].png" />
+    <None Remove="Thumbnails\Usp4k.png" />
     <None Remove="Videos\Deagle3k.mp4" />
     <None Remove="Videos\Glock4k.mp4" />
     <None Remove="Videos\InfernoACE.mp4" />
@@ -22,6 +27,21 @@
     <Resource Include="Font Awesome 6 Free Solid 900.otf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="Thumbnails\Deagle3k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thumbnails\Glock4k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thumbnails\InfernoACE.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thumbnails\Most Insane 1 Shot ACE in CSGO History! [bGcPQ8hdQVg].png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Thumbnails\Usp4k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Videos\Deagle3k.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -41,7 +61,6 @@
 
   <ItemGroup>
     <Folder Include="Fonts\" />
-    <Folder Include="Thumbnails\" />
   </ItemGroup>
 
 </Project>

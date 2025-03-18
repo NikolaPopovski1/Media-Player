@@ -50,18 +50,18 @@ namespace Media_Player
 
             foreach (var file in videoFiles)
             {
-                VideoFile video = new VideoFile();
-                parts = file.Replace("./Videos/", "").Split(new[] { '.' }, 2);
-                placeholder = new MediaElement();
-                placeholder.Source = new Uri(Path.GetFullPath(file));
-                video.Name = parts[0];
-                video.Path = file;
-                video.Thumbnail = "./Thumbnails/" + parts[0] + ".png";
-                video.LastModified = File.GetLastWriteTime(file).ToString();
-                video.FileType = parts[1];
-                video.Size = (int)new FileInfo(file).Length;
-                videoList.Add(video);
-                //VideoListView.Items.Add(video.Name);
+                string fileName = Path.GetFileNameWithoutExtension(file);
+                string thumbnailPath = Path.Combine("./Thumbnails/", fileName + ".png");
+
+                VideoList.Add(new VideoFile
+                {
+                    Name = fileName,
+                    Path = file,
+                    Thumbnail = File.Exists(Path.GetFullPath(thumbnailPath)) ? Path.GetFullPath(thumbnailPath) : "default.jpg",
+                    LastModified = File.GetLastWriteTime(file).ToString(),
+                    FileType = Path.GetExtension(file),
+                    Size = (int)new FileInfo(file).Length
+                });
             }
         }
 

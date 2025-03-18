@@ -77,5 +77,40 @@ namespace Media_Player
                 OnPropertyChanged();
             }
         }
+
+        public string SizeAsString
+        {
+            get
+            {
+                if(size < 0124)
+                {
+                    return size + " B";
+                }
+                else if (size < 1024 * 1024)
+                {
+                    return (size / 1024).ToString() + " KB";
+                }
+                else if (size < 1024 * 1024 * 1024)
+                {
+                    return (size / 1024 / 1024).ToString() + " MB";
+                }
+                else
+                {
+                    return (size / 1024 / 1024 / 1024).ToString() + " GB";
+                }
+            }
+        }
+
+        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        {
+            if (!Equals(field, newValue))
+            {
+                field = newValue;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                return true;
+            }
+
+            return false;
+        }
     }
 }
