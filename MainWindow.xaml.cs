@@ -3,6 +3,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace Media_Player
 {
@@ -11,6 +13,8 @@ namespace Media_Player
         private bool isPlaying = true;
         private bool isRepeating = false;
         private bool isShuffling = false;
+        private bool isSliderDragging = false;
+        DispatcherTimer timer = new DispatcherTimer();
         private string videoDirectory = "./Videos/";
         string[] parts;
         private MediaElement placeholder;
@@ -21,6 +25,14 @@ namespace Media_Player
             InitializeComponent();
             DataContext = this;
             LoadVideoList();
+
+            VideoPlayer.MediaOpened += VideoPlayer_MediaOpened;
+            VideoPlayer.MediaEnded += VideoPlayer_MediaEnded;
+
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Tick += (s, e) => UpdateSlider();
+            timer.Tick += (s, e) => UpdateTimer();
+            timer.Start();
         }
 
         public ObservableCollection<VideoFile> VideoList
@@ -135,6 +147,53 @@ namespace Media_Player
                 FindAndPlayVideo(selectedVideoFile); // This will play the video when double-clicked
             }
         }
+        private void UpdateTimer()
+        {
+            TimerLabel.Content = VideoPlayer.Position.ToString(@"mm\:ss");
+        }
+
+
+
+        private void VideoSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (isSliderDragging)
+            {
+                VideoPlayer.Position = TimeSpan.FromSeconds(VideoSlider.Value);
+            }
+        }
+
+        private void VideoSlider_DragStarted(object sender, RoutedEventArgs e)
+        {
+            isSliderDragging = true;
+        }
+
+        private void VideoSlider_DragCompleted(object sender, RoutedEventArgs e)
+        {
+            isSliderDragging = false;
+            VideoPlayer.Position = TimeSpan.FromSeconds(VideoSlider.Value);
+            UpdateTimer();
+        }
+
+        private void VideoPlayer_MediaOpened(object sender, RoutedEventArgs e)
+        {
+            if (VideoPlayer.NaturalDuration.HasTimeSpan)
+            {
+                VideoSlider.Maximum = VideoPlayer.NaturalDuration.TimeSpan.TotalSeconds;
+            }
+        }
+
+        private void VideoPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            VideoSlider.Value = 0; // Reset slider when the video ends
+        }
+
+        private void UpdateSlider()
+        {
+            if (!isSliderDragging && VideoPlayer.NaturalDuration.HasTimeSpan)
+            {
+                VideoSlider.Value = VideoPlayer.Position.TotalSeconds;
+            }
+        }
 
 
 
@@ -202,10 +261,12 @@ namespace Media_Player
             if (isPlaying)
             {
                 VideoPlayer.Play();
+                UpdateTimer();
             }
             else
             {
                 VideoPlayer.Pause();
+                UpdateTimer();
             }
         }
 
@@ -258,11 +319,6 @@ namespace Media_Player
                     ShuffleButton.Background = System.Windows.Media.Brushes.Green;
                 }
             }
-        }
-
-        private void VideoSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            VideoPlayer.Position = TimeSpan.FromSeconds(VideoSlider.Value);
         }
     }
 }

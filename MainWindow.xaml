@@ -97,8 +97,10 @@
         </Grid>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 12">
-            <Label Content="00:00" DockPanel.Dock="Bottom" VerticalAlignment="Center" Foreground="White" Padding="10"/>
-            <Slider Name="VideoSlider" DockPanel.Dock="Bottom" Width="500" ValueChanged="VideoSlider_ValueChanged" VerticalAlignment="Center" />
+            <Label Name="TimerLabel" Content="00:00" DockPanel.Dock="Bottom" VerticalAlignment="Center" Foreground="White" Padding="10"/>
+            <Slider Name="VideoSlider" Width="500" VerticalAlignment="Center" Minimum="0" ValueChanged="VideoSlider_ValueChanged" PreviewMouseLeftButtonDown="VideoSlider_DragStarted"
+                PreviewMouseLeftButtonUp="VideoSlider_DragCompleted"/>
+
         </StackPanel>
         
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,10">
