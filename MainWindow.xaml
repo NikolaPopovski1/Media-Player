@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Media_Player"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000"
-        MinWidth="800" MinHeight="450"
+        Title="MainWindow" Height="400" Width="1000"
+        MinWidth="800" MinHeight="350"
         WindowStyle="None" ResizeMode="CanResizeWithGrip"
         Background="#1E1E1E">
-    
+
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#333"/>
@@ -133,16 +133,37 @@
                     Command="{Binding ShuffleButton}">
                 <TextBlock Name="ShuffleIconText" Text="&#xE8B1;" />
             </Button>
-            <!--<Button Style="{StaticResource PrimaryButtonStyle}" Content="&#xf050;" />-->
+            <!--<Button Style="{StaticResource PrimaryButtonStyle}" Content="&#xf050;" />
+            
+            
+            
+            
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"-->
         </StackPanel>
-
-        <StackPanel DockPanel.Dock="Left" Background="#2B2B2B" Width="250">
-            <TextBlock Text="Videos" FontSize="16" Foreground="White" 
-               HorizontalAlignment="Center" Margin="5"/>
-            <Grid>
-                <ListView Name="VideoListView" Background="#333" Foreground="White" 
-                  BorderThickness="0" ItemsSource="{Binding VideoList}" SelectedItem="{Binding SelectedVideo}"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="VideoListView_MouseDoubleClick">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" MinWidth="150"/>
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4"/>
+                <ColumnDefinition Width="200"  MinWidth="150"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Background="#2B2B2B" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Videos" FontSize="16" Foreground="White" VerticalAlignment="Top"
+                        HorizontalAlignment="Center" Margin="5"/>
+                <ListView Name="VideoListView" Background="#333" Foreground="White"
+                        BorderThickness="0" ItemsSource="{Binding VideoList}" 
+                        SelectedItem="{Binding SelectedVideo}"
+                        MouseDoubleClick="VideoListView_MouseDoubleClick"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        Grid.Row="1">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -156,13 +177,24 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Grid>
-        </StackPanel>
 
-        <TextBlock Name="PropertiesTextBlock" DockPanel.Dock="Right" 
-           HorizontalAlignment="Center" VerticalAlignment="Center" 
-           FontSize="10" Foreground="White" Margin="10" Width="100" 
-           TextWrapping="Wrap"/>
+            <GridSplitter Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="1" 
+                                  ResizeBehavior="PreviousAndNext" />
 
-        <MediaElement Name="VideoPlayer" DockPanel.Dock="Top" LoadedBehavior="Manual" UnloadedBehavior="Manual" Source="{Binding SelectedVideo.Path}"/>
+            <MediaElement Name="VideoPlayer" DockPanel.Dock="Top" LoadedBehavior="Manual" UnloadedBehavior="Manual" Source="{Binding SelectedVideo.Path}" Grid.Column="2"/>
+
+            <GridSplitter Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Column="3" 
+                                  ResizeBehavior="PreviousAndNext" />
+
+            <Grid Background="#2B2B2B" Grid.Column="4">
+                <StackPanel Name="Hello">
+                    <TextBlock Text="Properties" FontSize="16" Foreground="White" VerticalAlignment="Top"
+                        HorizontalAlignment="Center" Margin="5"/>
+                    <TextBlock Name="PropertiesTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                   FontSize="10" Foreground="White" Margin="10" 
+                                   TextWrapping="Wrap"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </DockPanel>
 </Window>
