@@ -268,5 +268,31 @@ namespace Media_Player.ViewModel
             canExecute => 
                 VideoPlayer.Source != null && !isRepeating
         );
+        public RelayCommand ForwardButton => new RelayCommand(
+            execute =>
+            {
+                int currentIndex = VideoList.IndexOf(SelectedVideo);
+                if (currentIndex < VideoList.Count - 1)
+                {
+                    SelectedVideo = VideoList[currentIndex + 1];
+                    PlaySelectedVideo();
+                }
+            },
+            canExecute =>
+                VideoPlayer.Source != null
+        );
+        public RelayCommand PreviousButton => new RelayCommand(
+            execute =>
+            {
+                int currentIndex = VideoList.IndexOf(SelectedVideo);
+                if (currentIndex > 0)
+                {
+                    SelectedVideo = VideoList[currentIndex - 1];
+                    PlaySelectedVideo();
+                }
+            },
+            canExecute =>
+                VideoPlayer.Source != null
+        );
     }
 }

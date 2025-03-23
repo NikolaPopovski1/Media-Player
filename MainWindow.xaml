@@ -109,10 +109,10 @@
                     Command="{Binding RepeatButton}">
                 <TextBlock Name="RepeatIconText" Text="&#xE8EE;" />
             </Button>
-            <Button Name="BackButton"
+            <Button Name="PreviousButton"
                 FontFamily="Segoe MDL2 Assets" FontSize="16"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
-                    Command="{Binding BackButton}">
+                    Command="{Binding PreviousButton}">
                 <TextBlock Name="BackIconText" Text="&#xF8AC;" />
             </Button>
             <Button Name="PlayPauseButton"
