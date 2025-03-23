@@ -45,7 +45,7 @@ namespace Media_Player.ViewModel
                 timer.Interval = TimeSpan.FromMilliseconds(500);
                 timer.Tick += (s, e) => UpdateSlider();
                 timer.Tick += (s, e) => UpdateTimer();
-                
+
             }
         }
         public ObservableCollection<VideoFile> VideoList
@@ -207,14 +207,14 @@ namespace Media_Player.ViewModel
 
 
         public RelayCommand CloseButton => new RelayCommand(execute => {
-            System.Windows.Application.Current.Shutdown(); 
+            System.Windows.Application.Current.Shutdown();
         });
-        public RelayCommand MinimizeButton => new RelayCommand(execute => { 
+        public RelayCommand MinimizeButton => new RelayCommand(execute => {
             System.Windows.Application.Current.MainWindow.WindowState = System.Windows.WindowState.Minimized;
         });
         public RelayCommand ResizeButton => new RelayCommand(
-            execute => 
-            { 
+            execute =>
+            {
                 if (System.Windows.Application.Current.MainWindow.WindowState == System.Windows.WindowState.Normal)
                     System.Windows.Application.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
                 else
@@ -240,8 +240,8 @@ namespace Media_Player.ViewModel
                     VideoPlayer.Play();
                     timer.Start();
                 }
-            }, 
-            canExecute => 
+            },
+            canExecute =>
                 VideoPlayer.Source != null
         );
         public RelayCommand RepeatButton => new RelayCommand(
@@ -252,8 +252,8 @@ namespace Media_Player.ViewModel
                 else
                     RepeatIconText.Text = "\uF5E7";
                 isRepeating = !isRepeating;
-            }, 
-            canExecute => 
+            },
+            canExecute =>
                 VideoPlayer.Source != null && !isShuffling
         );
         public RelayCommand ShuffleButton => new RelayCommand(
@@ -264,8 +264,8 @@ namespace Media_Player.ViewModel
                 else
                     ShuffleButtonItself.Background = System.Windows.Media.Brushes.Green;
                 isShuffling = !isShuffling;
-            }, 
-            canExecute => 
+            },
+            canExecute =>
                 VideoPlayer.Source != null && !isRepeating
         );
         public RelayCommand ForwardButton => new RelayCommand(
@@ -293,6 +293,37 @@ namespace Media_Player.ViewModel
             },
             canExecute =>
                 VideoPlayer.Source != null
+        );
+        public RelayCommand AddVideoStaticButton => new RelayCommand(
+            execute =>
+            {
+                string videoPath = VIDEO_DIR + "Deagle3k.mp4";
+                VideoList.Add(new VideoFile
+                {
+                    Name = "Deagle3k",
+                    Path = videoPath,
+                    Thumbnail = File.Exists(Path.GetFullPath(THUMBNAIL_DIR + "Deagle3k.png")) ? Path.GetFullPath(THUMBNAIL_DIR + "Deagle3k.png") : THUMBNAIL_DIR + "default.png",
+                    LastModified = File.GetLastWriteTime(videoPath).ToString(),
+                    FileType = Path.GetExtension(videoPath),
+                    Size = (int)new FileInfo(videoPath).Length
+                });
+            }
+        );
+        public RelayCommand EditVideoStaticButton => new RelayCommand(
+            execute =>
+            {
+                SelectedVideo.Name = "SPREMEMBA!!!";
+            },
+            canExecute =>
+                VideoList.Count > 0 && SelectedVideo != null
+        );
+        public RelayCommand RemoveVideoButton => new RelayCommand(
+            execute =>
+            {
+                VideoList.Remove(SelectedVideo);
+            },
+            canExecute =>
+                VideoList.Count > 0 && SelectedVideo != null
         );
     }
 }
