@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Media_Player"
-        xmlns:model="clr-namespace:Media_Player.Model"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1000"
         MinWidth="800" MinHeight="450"
@@ -71,7 +70,7 @@
     </Window.Resources>
 
     <DockPanel>
-        <Grid DockPanel.Dock="Top" Background="#2C2C2C" Height="40" >
+        <Grid DockPanel.Dock="Top" Background="#2C2C2C" Height="40" MouseDown="TitleBar_MouseDown">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Menu>
                     <MenuItem Header="Meni">
@@ -97,12 +96,9 @@
             </StackPanel>
         </Grid>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 0, 0, 12">
-            <Label Name="TimerLabel" Content="00:00" DockPanel.Dock="Bottom" VerticalAlignment="Center" Foreground="White" Padding="10"/>
-            <Slider Name="VideoSlider" Width="500" VerticalAlignment="Center" Minimum="0"
-                />
-            <!-- ValueChanged="VideoSlider_ValueChanged" 
-            PreviewMouseLeftButtonDown="VideoSlider_DragStarted"
-                    PreviewMouseLeftButtonUp="VideoSlider_DragCompleted"-->
+            <Label Name="TimerLabel" Content="00:00" DockPanel.Dock="Bottom" VerticalAlignment="Center" Foreground="White" Padding="10" />
+            <Slider Name="VideoSlider" Width="500" VerticalAlignment="Center" Minimum="0" ValueChanged="VideoSlider_ValueChanged" PreviewMouseLeftButtonDown="VideoSlider_DragStarted"
+                PreviewMouseLeftButtonUp="VideoSlider_DragCompleted"/>
 
         </StackPanel>
 
@@ -119,7 +115,7 @@
                     Command="{Binding BackButton}">
                 <TextBlock Name="BackIconText" Text="&#xF8AC;" />
             </Button>
-            <Button Name="nPlayPauseButton"
+            <Button Name="PlayPauseButton"
                 FontFamily="Segoe MDL2 Assets" FontSize="16"
                 HorizontalAlignment="Center" VerticalAlignment="Center"
                     Command="{Binding PlayPauseButton}">
@@ -145,8 +141,8 @@
                HorizontalAlignment="Center" Margin="5"/>
             <Grid>
                 <ListView Name="VideoListView" Background="#333" Foreground="White" 
-                  BorderThickness="0" ItemsSource="{Binding VideoList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                  BorderThickness="0" ItemsSource="{Binding VideoList}" SelectedItem="{Binding SelectedVideo}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="VideoListView_MouseDoubleClick">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -167,6 +163,6 @@
            FontSize="10" Foreground="White" Margin="10" Width="100" 
            TextWrapping="Wrap"/>
 
-        <MediaElement Name="VideoPlayer" DockPanel.Dock="Top" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+        <MediaElement Name="VideoPlayer" DockPanel.Dock="Top" LoadedBehavior="Manual" UnloadedBehavior="Manual" Source="{Binding SelectedVideo.Path}"/>
     </DockPanel>
 </Window>
