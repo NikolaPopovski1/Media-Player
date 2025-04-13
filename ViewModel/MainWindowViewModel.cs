@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
+
 namespace Media_Player.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase //zakaj ni treba vlkjučiti še RelayCommand?
@@ -30,6 +31,8 @@ namespace Media_Player.ViewModel
         private TextBlock RepeatIconText;
         private TextBlock ShuffleIconText;
         private Button ShuffleButtonItself;
+
+        //private var = new DodajFilmOkno(this);
 
         public MainWindowViewModel(MediaElement VideoPlayer, Label TimerLabel)
         {
@@ -321,6 +324,24 @@ namespace Media_Player.ViewModel
             execute =>
             {
                 VideoList.Remove(SelectedVideo);
+            },
+            canExecute =>
+                VideoList.Count > 0 && SelectedVideo != null
+        );
+        public RelayCommand AddVideoButton => new RelayCommand(
+            execute =>
+            {
+                DodajFilmOkno dodajFilmOkno = new DodajFilmOkno();
+                dodajFilmOkno.Show();
+            },
+            canExecute =>
+                VideoList.Count > 0 && SelectedVideo != null 
+        );
+        public RelayCommand EditVideoButton => new RelayCommand(
+            execute =>
+            {
+                // DodajFilmOkno dodajFilmOkno = new DodajFilmOkno(this);
+                // dodajFilmOkno.Show();
             },
             canExecute =>
                 VideoList.Count > 0 && SelectedVideo != null
