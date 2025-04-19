@@ -83,43 +83,35 @@ namespace Media_Player
 
         private void FilePathButton_Click(object sender, RoutedEventArgs e)
         {
-            string filter = "";
-            if (FilePathTextBox.Text == "")
-            {
-                filter = "Video Files (*.mp4; *.avi; *.mkv; *.flv; *.mov)|*.mp4;*.avi;*.mkv;*.flv;*.mov";
-            }
-            else
-            {
-                filter = FilePathTextBox.Text;
-            }
+            string filter = "Video Files (*.mp4;*.avi;*.mkv;*.flv;*.mov)|*.mp4;*.avi;*.mkv;*.flv;*.mov";
 
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            OpenFileDialog openVideoFileDialog = new OpenFileDialog
             {
                 Filter = filter,
                 Title = "Select a Video File"
             };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (openVideoFileDialog.ShowDialog() == true)
             {
-                FilePathTextBox.Text = openFileDialog.FileName;
-                string fileType = System.IO.Path.GetExtension(openFileDialog.FileName);
+                FilePathTextBox.Text = openVideoFileDialog.FileName;
+                string fileType = System.IO.Path.GetExtension(openVideoFileDialog.FileName);
                 FileTypeTextBox.Text = fileType;
-                LastModifiedTextBox.Text = System.IO.File.GetLastWriteTime(openFileDialog.FileName).ToString();
-                FilePathTextBox.Text = openFileDialog.FileName;
+                LastModifiedTextBox.Text = System.IO.File.GetLastWriteTime(openVideoFileDialog.FileName).ToString();
+                FilePathTextBox.Text = openVideoFileDialog.FileName;
             }
         }
 
         private void ThumbnailPathButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            OpenFileDialog openThumbnailFileDialog = new OpenFileDialog
             {
                 Filter = "PNG Files (*.png)|*.png",
                 Title = "Select a PNG File"
             };
 
-            if (openFileDialog.ShowDialog() == true)
+            if (openThumbnailFileDialog.ShowDialog() == true)
             {
-                ThumbnailPathTextBox.Text = openFileDialog.FileName;
+                ThumbnailPathTextBox.Text = openThumbnailFileDialog.FileName;
             }
         }
     }

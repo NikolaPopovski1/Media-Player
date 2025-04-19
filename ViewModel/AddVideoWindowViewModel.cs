@@ -138,28 +138,30 @@ namespace Media_Player.ViewModel
                     if (
                         FilePathTextBox.Text.Length >= 4
                         && FilePathTextBox.Text[^4..] == FileTypeTextBox.Text
-                        && (
-                            FilePathTextBox.Text[^4..] != ".avi"
-                            || FilePathTextBox.Text[^4..] != ".mp4"
-                            || FilePathTextBox.Text[^4..] != ".mkv"
-                            || FilePathTextBox.Text[^4..] != ".flv"
-                            || FilePathTextBox.Text[^4..] != ".mov"
-                            )
                         )
                     {
-                        return true;
+                        if (
+                            FileTypeTextBox.Text == ".avi"
+                            || FileTypeTextBox.Text == ".mp4"
+                            || FileTypeTextBox.Text == ".mkv"
+                            || FileTypeTextBox.Text == ".flv"
+                            || FileTypeTextBox.Text == ".mov"
+                            )
+                        {
+                            return true;
+                        }
+                        AddVideoLabel.Content = "Accepts only .avi, .mp4, .mkv, .flv and .mov file types!";
                     }
                     else
                     {
                         AddVideoLabel.Content = "File type must be the same as file path type!";
-                        return false;
                     }
                 }
                 else
                 {
                     AddVideoLabel.Content = "File or thumbnail path is incorrect!";
-                    return false;
                 }
+                return false;
             }
             else
             {
