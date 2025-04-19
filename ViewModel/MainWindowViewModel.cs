@@ -334,6 +334,10 @@ namespace Media_Player.ViewModel
                 dodajFilmOkno = new DodajFilmOkno();
                 if (dodajFilmOkno.ShowDialog() == true)
                 {
+                    if (dodajFilmOkno.ThumbnailPathTextBox.Text == "")
+                    {
+                        dodajFilmOkno.ThumbnailPathTextBox.Text = THUMBNAIL_DIR + "default.png";
+                    }
                     VideoList.Add(new VideoFile
                     {
                         Name = dodajFilmOkno.NameTextBox.Text,
@@ -343,9 +347,12 @@ namespace Media_Player.ViewModel
                         FileType = dodajFilmOkno.FileTypeTextBox.Text,
                         Size = (int)new FileInfo(dodajFilmOkno.FilePathTextBox.Text).Length
                     });
+                    dodajFilmOkno.Close();
+                    dodajFilmOkno = null;
                 }
                 else
                 {
+                    dodajFilmOkno.Close();
                     dodajFilmOkno = null;
                 }
             },

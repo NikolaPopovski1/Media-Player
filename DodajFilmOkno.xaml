@@ -37,7 +37,7 @@
 
             <Label Grid.Row="1" Grid.Column="0" Content="File path:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
             <TextBox Grid.Row="1" Grid.Column="1" Name="FilePathTextBox" TextChanged="FilePathTextBox_TextChanged" Margin="10,6,-36,5" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="1" Grid.Column="2" Name="FilePathButton"  Content="..." Margin="66,6,-69,6"/>
+            <Button Grid.Row="1" Grid.Column="2" Name="FilePathButton"  Content="..." Margin="66,6,-69,6" Click="FilePathButton_Click"/>
 
             <Label Grid.Row="2" Grid.Column="0" Content="File type:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
             <TextBox Grid.Row="2" Grid.Column="1" Name="FileTypeTextBox" TextChanged="FileTypeTextBox_TextChanged" Margin="10,6,-69,6" Grid.ColumnSpan="2"/>
@@ -47,7 +47,7 @@
 
             <Label Grid.Row="4" Grid.Column="0" Content="Thumbnail path:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
             <TextBox Grid.Row="4" Grid.Column="1" Name="ThumbnailPathTextBox" TextChanged="ThumbnailPathTextBox_TextChanged" Margin="10,6,-36,8" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="4" Grid.Column="2" Name="ThumbnailPathButton" Content="..." Margin="66,6,-69,6" RenderTransformOrigin="0.925,-3.277"/>
+            <Button Grid.Row="4" Grid.Column="2" Name="ThumbnailPathButton" Content="..." Margin="66,6,-69,6" RenderTransformOrigin="0.925,-3.277" Click="ThumbnailPathButton_Click"/>
 
             <Image Grid.Row="5" Grid.Column="1" Source="{Binding SelectedImg}" Height="100" Width="160" Margin="128,13,-68,63" Grid.ColumnSpan="2" />
 

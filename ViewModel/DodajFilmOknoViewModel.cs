@@ -18,8 +18,9 @@ namespace Media_Player.ViewModel
 
         private TextBox _nameTextBox;
         private TextBox _filePathTextBox;
-        private TextBox _thumbnailPathTextBox;
+        private TextBox _fileTypeTextBox;
         private DatePicker _lastModifiedTextBox;
+        private TextBox _thumbnailPathTextBox;
         private Label _addVideoLabel;
 
         public TextBox NameTextBox
@@ -58,6 +59,15 @@ namespace Media_Player.ViewModel
                 OnPropertyChanged();
             }
         }
+        public TextBox FileTypeTextBox
+        {
+            get { return _fileTypeTextBox; }
+            set
+            {
+                _fileTypeTextBox = value;
+                OnPropertyChanged();
+            }
+        }
         public Label AddVideoLabel
         {
             get { return _addVideoLabel; }
@@ -88,12 +98,19 @@ namespace Media_Player.ViewModel
         {
             AddVideoLabel = label;
         }
+        public void SetFileTypeTextBox(TextBox textBox)
+        {
+            FileTypeTextBox = textBox;
+        }
+        public void SetAddWindowLabel(Label label)
+        {
+            AddWindowLabel = label;
+        }
 
         public DodajFilmOknoViewModel(Label label)
         {
             this.AddWindowLabel = label;
         }
-
         public string SelectedImg
         {
             get { return selectedImg; }
@@ -103,25 +120,40 @@ namespace Media_Player.ViewModel
                 OnPropertyChanged();
             }
         }
-
-        public void SetAddWindowLabel(Label label)
-        {
-            AddWindowLabel = label;
-        }
-
         public bool Ok_Click()
         {
             if (
                 !string.IsNullOrWhiteSpace(NameTextBox.Text) &&
                !string.IsNullOrWhiteSpace(FilePathTextBox.Text) &&
-               !string.IsNullOrWhiteSpace(ThumbnailPathTextBox.Text) &&
                !string.IsNullOrWhiteSpace(LastModifiedTextBox.Text))
             {
                 if (
-                    System.IO.File.Exists(FilePathTextBox.Text) &&
-                    System.IO.File.Exists(ThumbnailPathTextBox.Text))
+                    System.IO.File.Exists(FilePathTextBox.Text)
+                    && (
+                        System.IO.File.Exists(ThumbnailPathTextBox.Text)
+                        || ThumbnailPathTextBox.Text == ""
+                        ) 
+                    )
                 {
-                    return true;
+                    if (
+                        FilePathTextBox.Text.Length >= 4
+                        && FilePathTextBox.Text[^4..] == FileTypeTextBox.Text
+                        && (
+                            FilePathTextBox.Text[^4..] != ".avi"
+                            || FilePathTextBox.Text[^4..] != ".mp4"
+                            || FilePathTextBox.Text[^4..] != ".mkv"
+                            || FilePathTextBox.Text[^4..] != ".flv"
+                            || FilePathTextBox.Text[^4..] != ".mov"
+                            )
+                        )
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        AddVideoLabel.Content = "File type must be the same as file path type!";
+                        return false;
+                    }
                 }
                 else
                 {
