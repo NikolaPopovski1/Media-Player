@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using Media_Player.Model;
 using Media_Player.MVVM;
@@ -9,8 +10,8 @@ namespace Media_Player
 {
     public partial class DodajFilmOkno : Window
     {
-        VideoFile VideoFile { get; set; }
         DodajFilmOknoViewModel vm;
+        public VideoFile VideoFile { get; private set; }
 
         public DodajFilmOkno()
         {
@@ -28,6 +29,19 @@ namespace Media_Player
         {
             if (vm.Ok_Click())
             {
+                if (ThumbnailPathTextBox.Text == "")
+                {
+                    ThumbnailPathTextBox.Text = MainWindowViewModel.THUMBNAIL_DIR + "default.png";
+                }
+                VideoFile = new VideoFile
+                {
+                    Name = NameTextBox.Text,
+                    Path = FilePathTextBox.Text,
+                    Thumbnail = ThumbnailPathTextBox.Text,
+                    LastModified = LastModifiedTextBox.Text,
+                    FileType = FileTypeTextBox.Text,
+                    Size = (int)new FileInfo(FilePathTextBox.Text).Length
+                };
                 DialogResult = true;
             }
         }
@@ -53,6 +67,7 @@ namespace Media_Player
         }
         private void ThumbnailPathTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+            vm.ThumbnailPathChanged();
         }
         private void LastModifiedTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {

@@ -132,7 +132,7 @@ namespace Media_Player.ViewModel
                     && (
                         System.IO.File.Exists(ThumbnailPathTextBox.Text)
                         || ThumbnailPathTextBox.Text == ""
-                        ) 
+                        )
                     )
                 {
                     if (
@@ -165,6 +165,26 @@ namespace Media_Player.ViewModel
             {
                 AddVideoLabel.Content = "All fields must be filled!";
                 return false;
+            }
+        }
+        public void ThumbnailPathChanged()
+        {
+            string tmp = ThumbnailPathTextBox.Text;
+            if (tmp != "")
+            {
+                if (System.IO.File.Exists(tmp))
+                {
+                    SelectedImg = tmp;
+                    AddVideoLabel.Content = "";
+                }
+                else
+                {
+                    AddVideoLabel.Content = "Thumbnail path is incorrect!";
+                }
+            }
+            else
+            {
+                SelectedImg = MainWindowViewModel.THUMBNAIL_DIR + "default.png";
             }
         }
     }

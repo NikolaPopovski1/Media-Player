@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Media_Player.Model
 {
-    class VideoFile : ViewModelBase
+    public class VideoFile : ViewModelBase
     {
         private string name;
         private string path;

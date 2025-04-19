@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Media_Player.MVVM
 {
-    internal class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

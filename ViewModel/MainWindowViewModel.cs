@@ -334,27 +334,10 @@ namespace Media_Player.ViewModel
                 dodajFilmOkno = new DodajFilmOkno();
                 if (dodajFilmOkno.ShowDialog() == true)
                 {
-                    if (dodajFilmOkno.ThumbnailPathTextBox.Text == "")
-                    {
-                        dodajFilmOkno.ThumbnailPathTextBox.Text = THUMBNAIL_DIR + "default.png";
-                    }
-                    VideoList.Add(new VideoFile
-                    {
-                        Name = dodajFilmOkno.NameTextBox.Text,
-                        Path = dodajFilmOkno.FilePathTextBox.Text,
-                        Thumbnail = dodajFilmOkno.ThumbnailPathTextBox.Text,
-                        LastModified = dodajFilmOkno.LastModifiedTextBox.Text,
-                        FileType = dodajFilmOkno.FileTypeTextBox.Text,
-                        Size = (int)new FileInfo(dodajFilmOkno.FilePathTextBox.Text).Length
-                    });
-                    dodajFilmOkno.Close();
-                    dodajFilmOkno = null;
+                    VideoList.Add(dodajFilmOkno.VideoFile);
                 }
-                else
-                {
-                    dodajFilmOkno.Close();
-                    dodajFilmOkno = null;
-                }
+                dodajFilmOkno.Close();
+                dodajFilmOkno = null;
             },
             canExecute =>
                 dodajFilmOkno == null && VideoList.Count < 100
