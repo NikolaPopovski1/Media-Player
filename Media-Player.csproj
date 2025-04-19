@@ -56,10 +56,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Thumbnails\Most Insane 1 Shot ACE in CSGO History! [bGcPQ8hdQVg].png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

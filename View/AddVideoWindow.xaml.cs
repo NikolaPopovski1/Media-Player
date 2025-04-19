@@ -8,17 +8,17 @@ using Microsoft.Win32;
 
 namespace Media_Player
 {
-    public partial class DodajFilmOkno : Window
+    public partial class AddVideoWindow : Window
     {
-        DodajFilmOknoViewModel vm;
+        private MainWindowViewModel vm;
         public VideoFile VideoFile { get; private set; }
 
-        public DodajFilmOkno()
+        public AddVideoWindow(MainWindowViewModel vm)
         {
             InitializeComponent();
-            vm = new DodajFilmOknoViewModel(AddVideoLabel);
-            DataContext = vm;
-            vm.SetAddVideoLabel(AddVideoLabel);
+            this.vm = vm;
+            DataContext = this.vm;
+            vm.SetVideoLabel(VideoLabel);
             vm.SetNameTextBox(NameTextBox);
             vm.SetFilePathTextBox(FilePathTextBox);
             vm.SetThumbnailPathTextBox(ThumbnailPathTextBox);
@@ -83,36 +83,12 @@ namespace Media_Player
 
         private void FilePathButton_Click(object sender, RoutedEventArgs e)
         {
-            string filter = "Video Files (*.mp4;*.avi;*.mkv;*.flv;*.mov)|*.mp4;*.avi;*.mkv;*.flv;*.mov";
-
-            OpenFileDialog openVideoFileDialog = new OpenFileDialog
-            {
-                Filter = filter,
-                Title = "Select a Video File"
-            };
-
-            if (openVideoFileDialog.ShowDialog() == true)
-            {
-                FilePathTextBox.Text = openVideoFileDialog.FileName;
-                string fileType = System.IO.Path.GetExtension(openVideoFileDialog.FileName);
-                FileTypeTextBox.Text = fileType;
-                LastModifiedTextBox.Text = System.IO.File.GetLastWriteTime(openVideoFileDialog.FileName).ToString();
-                FilePathTextBox.Text = openVideoFileDialog.FileName;
-            }
+            vm.OpenVideFileDialog();
         }
 
         private void ThumbnailPathButton_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openThumbnailFileDialog = new OpenFileDialog
-            {
-                Filter = "PNG Files (*.png)|*.png",
-                Title = "Select a PNG File"
-            };
-
-            if (openThumbnailFileDialog.ShowDialog() == true)
-            {
-                ThumbnailPathTextBox.Text = openThumbnailFileDialog.FileName;
-            }
+            vm.OpenThumbnailPathDialog();
         }
     }
 }

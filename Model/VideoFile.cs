@@ -97,5 +97,29 @@ namespace Media_Player.Model
                 }
             }
         }
+
+        public DateTime? LastModifiedAsDate
+        {
+            get
+            {
+                if (DateTime.TryParse(lastModified, out DateTime date))
+                {
+                    return date;
+                }
+                else
+                {
+                    return null; // Return null if parsing fails
+                }
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    lastModified = value.Value.ToString("yyyy-MM-dd"); // Format as string
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(LastModified)); // Notify change for dependent property
+                }
+            }
+        }
     }
 }

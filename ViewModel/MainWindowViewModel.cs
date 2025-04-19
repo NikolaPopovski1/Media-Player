@@ -1,5 +1,6 @@
 ﻿using Media_Player.Model;
 using Media_Player.MVVM;
+using Microsoft.Win32;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
@@ -9,7 +10,7 @@ using System.Windows.Threading;
 
 namespace Media_Player.ViewModel
 {
-    internal class MainWindowViewModel : ViewModelBase //zakaj ni treba vlkjučiti še RelayCommand?
+    public class MainWindowViewModel : ViewModelBase //zakaj ni treba vlkjučiti še RelayCommand?
     {
         public static string VIDEO_DIR = "./Videos/";
         public static string THUMBNAIL_DIR = "./Thumbnails/";
@@ -31,46 +32,80 @@ namespace Media_Player.ViewModel
         private TextBlock RepeatIconText;
         private TextBlock ShuffleIconText;
         private Button ShuffleButtonItself;
-        private DodajFilmOkno dodajFilmOkno = null;
+        private AddVideoWindow addVideoWindow = null;
+        private EditVideoWindow editVideoWindow = null;
 
-        //private var = new DodajFilmOkno(this);
+        private TextBox _nameTextBox;
+        private TextBox _filePathTextBox;
+        private TextBox _fileTypeTextBox;
+        private DatePicker _lastModifiedTextBox;
+        private TextBox _thumbnailPathTextBox;
+        private Label _videoLabel;
+        private string _selectedImg =  "./." + THUMBNAIL_DIR + "default.png";
 
-        public MainWindowViewModel(MediaElement VideoPlayer, Label TimerLabel)
+        public TextBox NameTextBox
         {
-            LoadVideoList();
-
-            this.VideoPlayer = VideoPlayer;
-            this.TimerLabel = TimerLabel;
-            if (VideoPlayer != null)
-            {
-                VideoPlayer.MediaOpened += VideoPlayer_MediaOpened;
-                VideoPlayer.MediaEnded += VideoPlayer_MediaEnded;
-
-                timer.Interval = TimeSpan.FromMilliseconds(500);
-                timer.Tick += (s, e) => UpdateSlider();
-                timer.Tick += (s, e) => UpdateTimer();
-            }
-        }
-        public ObservableCollection<VideoFile> VideoList
-        {
-            get { return videoList; }
+            get { return _nameTextBox; }
             set
             {
-                videoList = value;
+                _nameTextBox = value;
                 OnPropertyChanged();
             }
         }
-        public VideoFile SelectedVideo
+        public TextBox FilePathTextBox
         {
-            get { return selectedVideo; }
+            get { return _filePathTextBox; }
             set
             {
-                selectedVideo = value;
+                _filePathTextBox = value;
                 OnPropertyChanged();
             }
         }
-
-
+        public TextBox FileTypeTextBox
+        {
+            get { return _fileTypeTextBox; }
+            set
+            {
+                _fileTypeTextBox = value;
+                OnPropertyChanged();
+            }
+        }
+        public DatePicker LastModifiedTextBox
+        {
+            get { return _lastModifiedTextBox; }
+            set
+            {
+                _lastModifiedTextBox = value;
+                OnPropertyChanged();
+            }
+        }
+        public TextBox ThumbnailPathTextBox
+        {
+            get { return _thumbnailPathTextBox; }
+            set
+            {
+                _thumbnailPathTextBox = value;
+                OnPropertyChanged();
+            }
+        }
+        public Label VideoLabel
+        {
+            get { return _videoLabel; }
+            set
+            {
+                _videoLabel = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SelectedImg
+        {
+            get { return _selectedImg; }
+            set
+            {
+                _selectedImg = value;
+                OnPropertyChanged();
+            }
+        }
 
         public void SetMediaElement(MediaElement mediaElement)
         {
@@ -105,7 +140,68 @@ namespace Media_Player.ViewModel
             ShuffleButtonItself = button;
         }
 
+        public void SetNameTextBox(TextBox textBox)
+        {
+            _nameTextBox = textBox;
+        }
+        public void SetFilePathTextBox(TextBox textBox)
+        {
+            _filePathTextBox = textBox;
+        }
+        public void SetThumbnailPathTextBox(TextBox textBox)
+        {
+            _thumbnailPathTextBox = textBox;
+        }
+        public void SetLastModifiedTextBox(DatePicker datePicker)
+        {
+            _lastModifiedTextBox = datePicker;
+        }
+        public void SetFileTypeTextBox(TextBox textBox)
+        {
+            _fileTypeTextBox = textBox;
+        }
+        public void SetVideoLabel(Label label)
+        {
+            _videoLabel = label;
+        }
 
+
+
+        // MAIN WINDOW
+        public MainWindowViewModel(MediaElement VideoPlayer, Label TimerLabel)
+        {
+            LoadVideoList();
+
+            this.VideoPlayer = VideoPlayer;
+            this.TimerLabel = TimerLabel;
+            if (VideoPlayer != null)
+            {
+                VideoPlayer.MediaOpened += VideoPlayer_MediaOpened;
+                VideoPlayer.MediaEnded += VideoPlayer_MediaEnded;
+
+                timer.Interval = TimeSpan.FromMilliseconds(500);
+                timer.Tick += (s, e) => UpdateSlider();
+                timer.Tick += (s, e) => UpdateTimer();
+            }
+        }
+        public ObservableCollection<VideoFile> VideoList
+        {
+            get { return videoList; }
+            set
+            {
+                videoList = value;
+                OnPropertyChanged();
+            }
+        }
+        public VideoFile SelectedVideo
+        {
+            get { return selectedVideo; }
+            set
+            {
+                selectedVideo = value;
+                OnPropertyChanged();
+            }
+        }
 
         private void LoadVideoList()
         {
@@ -206,8 +302,6 @@ namespace Media_Player.ViewModel
                 PlayPauseButton.Execute(null);
             }
         }
-
-
 
         public RelayCommand CloseButton => new RelayCommand(execute => {
             System.Windows.Application.Current.Shutdown();
@@ -331,25 +425,140 @@ namespace Media_Player.ViewModel
         public RelayCommand AddVideoButton => new RelayCommand(
             execute =>
             {
-                dodajFilmOkno = new DodajFilmOkno();
-                if (dodajFilmOkno.ShowDialog() == true)
+                addVideoWindow = new AddVideoWindow(this);
+                if (addVideoWindow.ShowDialog() == true)
                 {
-                    VideoList.Add(dodajFilmOkno.VideoFile);
+                    VideoList.Add(addVideoWindow.VideoFile);
                 }
-                dodajFilmOkno.Close();
-                dodajFilmOkno = null;
+                addVideoWindow.Close();
+                addVideoWindow = null;
             },
             canExecute =>
-                dodajFilmOkno == null && VideoList.Count < 100
+                addVideoWindow == null && VideoList.Count < 100 && editVideoWindow == null
         );
         public RelayCommand EditVideoButton => new RelayCommand(
             execute =>
             {
-                // DodajFilmOkno dodajFilmOkno = new DodajFilmOkno(this);
-                // dodajFilmOkno.Show();
+                if (editVideoWindow == null)
+                {
+                    editVideoWindow = new EditVideoWindow(this);
+                    editVideoWindow.Owner = Application.Current.MainWindow;
+                    editVideoWindow.Show();
+
+                    editVideoWindow.Closed += (s, e) =>
+                    {
+                        editVideoWindow = null;
+                    };
+                }
             },
             canExecute =>
-                VideoList.Count > 0 && SelectedVideo != null
+                VideoList.Count > 0 && SelectedVideo != null && editVideoWindow == null && addVideoWindow == null
         );
+
+
+        // ADD VIDEO WINDOW
+        public bool Ok_Click()
+        {
+            if (
+                !string.IsNullOrWhiteSpace(NameTextBox.Text) &&
+               !string.IsNullOrWhiteSpace(FilePathTextBox.Text) &&
+               !string.IsNullOrWhiteSpace(LastModifiedTextBox.Text))
+            {
+                if (
+                    System.IO.File.Exists(FilePathTextBox.Text)
+                    && (
+                        System.IO.File.Exists(ThumbnailPathTextBox.Text)
+                        || ThumbnailPathTextBox.Text == ""
+                        )
+                    )
+                {
+                    if (
+                        FilePathTextBox.Text.Length >= 4
+                        && FilePathTextBox.Text[^4..] == FileTypeTextBox.Text
+                        )
+                    {
+                        if (
+                            FileTypeTextBox.Text == ".avi"
+                            || FileTypeTextBox.Text == ".mp4"
+                            || FileTypeTextBox.Text == ".mkv"
+                            || FileTypeTextBox.Text == ".flv"
+                            || FileTypeTextBox.Text == ".mov"
+                            )
+                        {
+                            return true;
+                        }
+                        VideoLabel.Content = "Accepts only .avi, .mp4, .mkv, .flv and .mov file types!";
+                    }
+                    else
+                    {
+                        VideoLabel.Content = "File type must be the same as file path type!";
+                    }
+                }
+                else
+                {
+                    VideoLabel.Content = "File or thumbnail path is incorrect!";
+                }
+                return false;
+            }
+            else
+            {
+                VideoLabel.Content = "All fields must be filled!";
+                return false;
+            }
+        }
+        public void ThumbnailPathChanged()
+        {
+            string tmp = ThumbnailPathTextBox.Text;
+            if (tmp != "")
+            {
+                if (System.IO.File.Exists(tmp))
+                {
+                    SelectedImg = tmp;
+                    VideoLabel.Content = "";
+                }
+                else
+                {
+                    VideoLabel.Content = "Thumbnail path is incorrect!";
+                }
+            }
+            else
+            {
+                SelectedImg = "./." + THUMBNAIL_DIR + "default.png";
+            }
+        }
+
+        // EDIT VIDEO WINDOW
+        public void OpenVideFileDialog()
+        {
+            string filter = "Video Files (*.mp4;*.avi;*.mkv;*.flv;*.mov)|*.mp4;*.avi;*.mkv;*.flv;*.mov";
+
+            OpenFileDialog openVideoFileDialog = new OpenFileDialog
+            {
+                Filter = filter,
+                Title = "Select a Video File"
+            };
+
+            if (openVideoFileDialog.ShowDialog() == true)
+            {
+                FilePathTextBox.Text = openVideoFileDialog.FileName;
+                string fileType = System.IO.Path.GetExtension(openVideoFileDialog.FileName);
+                FileTypeTextBox.Text = fileType;
+                LastModifiedTextBox.Text = System.IO.File.GetLastWriteTime(openVideoFileDialog.FileName).ToString();
+                FilePathTextBox.Text = openVideoFileDialog.FileName;
+            }
+        }
+        public void OpenThumbnailPathDialog()
+        {
+            OpenFileDialog openThumbnailFileDialog = new OpenFileDialog
+            {
+                Filter = "PNG Files (*.png)|*.png",
+                Title = "Select a PNG File"
+            };
+
+            if (openThumbnailFileDialog.ShowDialog() == true)
+            {
+                ThumbnailPathTextBox.Text = openThumbnailFileDialog.FileName;
+            }
+        }
     }
 }
