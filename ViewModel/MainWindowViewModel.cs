@@ -11,13 +11,13 @@ namespace Media_Player.ViewModel
 {
     internal class MainWindowViewModel : ViewModelBase //zakaj ni treba vlkjučiti še RelayCommand?
     {
+        public static string VIDEO_DIR = "./Videos/";
+        public static string THUMBNAIL_DIR = "./Thumbnails/";
+
         private bool isPlaying = false;
         private bool isRepeating = false;
         private bool isShuffling = false;
         private bool isSliderDragging = false;
-
-        public string VIDEO_DIR = "./Videos/";
-        public string THUMBNAIL_DIR = "./Thumbnails/";
 
         private ObservableCollection<VideoFile> videoList = new ObservableCollection<VideoFile>();
         DispatcherTimer timer = new DispatcherTimer();
@@ -31,6 +31,7 @@ namespace Media_Player.ViewModel
         private TextBlock RepeatIconText;
         private TextBlock ShuffleIconText;
         private Button ShuffleButtonItself;
+        private DodajFilmOkno dodajFilmOkno = null;
 
         //private var = new DodajFilmOkno(this);
 
@@ -48,7 +49,6 @@ namespace Media_Player.ViewModel
                 timer.Interval = TimeSpan.FromMilliseconds(500);
                 timer.Tick += (s, e) => UpdateSlider();
                 timer.Tick += (s, e) => UpdateTimer();
-
             }
         }
         public ObservableCollection<VideoFile> VideoList
@@ -331,11 +331,26 @@ namespace Media_Player.ViewModel
         public RelayCommand AddVideoButton => new RelayCommand(
             execute =>
             {
-                DodajFilmOkno dodajFilmOkno = new DodajFilmOkno();
-                dodajFilmOkno.Show();
+                dodajFilmOkno = new DodajFilmOkno();
+                if (dodajFilmOkno.ShowDialog() == true)
+                {
+                    VideoList.Add(new VideoFile
+                    {
+                        Name = dodajFilmOkno.NameTextBox.Text,
+                        Path = dodajFilmOkno.FilePathTextBox.Text,
+                        Thumbnail = dodajFilmOkno.ThumbnailPathTextBox.Text,
+                        LastModified = dodajFilmOkno.LastModifiedTextBox.Text,
+                        FileType = dodajFilmOkno.FileTypeTextBox.Text,
+                        Size = (int)new FileInfo(dodajFilmOkno.FilePathTextBox.Text).Length
+                    });
+                }
+                else
+                {
+                    dodajFilmOkno = null;
+                }
             },
             canExecute =>
-                VideoList.Count > 0 && SelectedVideo != null 
+                dodajFilmOkno == null && VideoList.Count < 100
         );
         public RelayCommand EditVideoButton => new RelayCommand(
             execute =>

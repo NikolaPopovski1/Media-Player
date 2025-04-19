@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace Media_Player.Model
 {
-    internal class VideoFile : ViewModelBase
+    class VideoFile : ViewModelBase
     {
         private string name;
         private string path;
@@ -18,7 +18,7 @@ namespace Media_Player.Model
         private string lastModified;
         private string fileType;
         private int size;
-        ///*
+
         public string Name
         {
             get { return name; }
@@ -74,20 +74,12 @@ namespace Media_Player.Model
                 OnPropertyChanged();
             }
         }
-        //*/
-        /*
-        public string Name { get; set; }
-        public string Path { get; set; }
-        public string Thumbnail { get; set; }
-        public string LastModified { get; set; }
-        public string FileType { get; set; }
-        public int Size { get; set; }
-        */
+
         public string SizeAsString
         {
             get
             {
-                if(size < 0124)
+                if (size < 1024)
                 {
                     return size + " B";
                 }
