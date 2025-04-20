@@ -5,68 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Media_Player"
         mc:Ignorable="d"
-        Title="EditVideoWindow"  MinHeight="520" MinWidth="550"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        Title="EditVideoWindow"
+        MinHeight="520" MinWidth="550"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
         SizeToContent="WidthAndHeight"
-        Background="#1E1E1E" Height="520"
+        Background="#1E1E1E"
+        Height="520"
         MouseDown="UrediFilmOkno_MouseDown">
-
     <Window.Resources>
         <ResourceDictionary Source="../ResourceDirectory.xaml" />
     </Window.Resources>
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
-        <Label Content="Edit video" HorizontalAlignment="Center" FontSize="18" Margin="0,10"/>
-        <Grid Margin="20" Width="392" HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="20"/>
-            </Grid.ColumnDefinitions>
-
+        <Label Content="Edit video" HorizontalAlignment="Center" FontSize="18" Foreground="White" Margin="0,10"/>
+        <Grid Margin="0,10" Width="400">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <!-- 0 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 1 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 2 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 3 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 4 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 5 -->
                 <RowDefinition Height="Auto"/>
-                <!-- 6 -->
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" Grid.Column="0" Content="Name:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="0" Grid.Column="1" Name="NameTextBox" Text="{Binding SelectedVideo.Name, UpdateSourceTrigger=PropertyChanged}" TextChanged="NameTextBox_TextChanged" Margin="10,6,-69,6" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Name="NameTextBox" Text="{Binding SelectedVideo.Name, UpdateSourceTrigger=PropertyChanged}" TextChanged="NameTextBox_TextChanged" Margin="5"/>
 
-            <Label Grid.Row="1" Grid.Column="0" Content="File path:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Name="FilePathTextBox" Text="{Binding SelectedVideo.Path, Mode=OneWay}" TextChanged="FilePathTextBox_TextChanged" Margin="10,6,-36,5" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="1" Grid.Column="2" Name="FilePathButton"  Content="..." Margin="66,6,-69,6" Click="FilePathButton_Click"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="File path:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Name="FilePathTextBox" Text="{Binding SelectedVideo.Path, Mode=OneWay}" TextChanged="FilePathTextBox_TextChanged" Margin="5" Height="25.96"/>
+            <Button Grid.Row="1" Grid.Column="2" Name="FilePathButton" Content="..." Width="25" Margin="5" Height="25.96" Click="FilePathButton_Click" Style="{StaticResource SecondaryButton}" />
 
-            <Label Grid.Row="2" Grid.Column="0" Content="File type:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Name="FileTypeTextBox" Text="{Binding SelectedVideo.FileType, Mode=OneWay}" TextChanged="FileTypeTextBox_TextChanged" Margin="10,6,-69,6" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="File type:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Name="FileTypeTextBox" Text="{Binding SelectedVideo.FileType, Mode=OneWay}" TextChanged="FileTypeTextBox_TextChanged" Margin="5"/>
 
-            <Label Grid.Row="3" Grid.Column="0" Content="Last modified:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <DatePicker Grid.Row="3" Grid.Column="1" Name="LastModifiedTextBox" 
-            SelectedDate="{Binding SelectedVideo.LastModifiedAsDate, UpdateSourceTrigger=PropertyChanged}" 
-            Grid.ColumnSpan="2" VerticalAlignment="Center" Width="Auto" Margin="10,0,-69,0"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Last modified:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
+            <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Name="LastModifiedTextBox"
+                        SelectedDate="{Binding SelectedVideo.LastModifiedAsDate, UpdateSourceTrigger=PropertyChanged}"
+                        Margin="5" Height="29"/>
 
+            <Label Grid.Row="4" Grid.Column="0" Content="Thumbnail path:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Name="ThumbnailPathTextBox" Text="{Binding SelectedVideo.Thumbnail, Mode=OneWay}" TextChanged="ThumbnailPathTextBox_TextChanged" Margin="5" Height="25.96"/>
+            <Button Grid.Row="4" Grid.Column="2" Name="ThumbnailPathButton" Content="..." Width="25" Margin="5" Height="25.96" Click="ThumbnailPathButton_Click" Style="{StaticResource SecondaryButton}" />
 
-            <Label Grid.Row="4" Grid.Column="0" Content="Thumbnail path:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Name="ThumbnailPathTextBox" Text="{Binding SelectedVideo.Thumbnail, Mode=OneWay}" TextChanged="ThumbnailPathTextBox_TextChanged" Margin="10,6,-36,8" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="4" Grid.Column="2" Name="ThumbnailPathButton" Content="..." Margin="66,6,-69,6" RenderTransformOrigin="0.925,-3.277" Click="ThumbnailPathButton_Click"/>
+            <Image Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Right"
+                   Source="{Binding SelectedVideo.Thumbnail, UpdateSourceTrigger=PropertyChanged}"
+                   Height="100" Width="160" Margin="0,10" />
 
-            <Image Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Source="{Binding SelectedVideo.Thumbnail, UpdateSourceTrigger=PropertyChanged}" Height="100" Width="160" Margin="0,9,-68,0" Grid.ColumnSpan="2" />
+            <StackPanel Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                <Button Content="Close" Width="75" Margin="5" Click="Button_Click"/>
+                <Button Content="Apply" Width="75" Margin="5" Click="Button_Click_1"/>
+            </StackPanel>
 
-            <Button Grid.Row="5" Grid.Column="1" Content="Close" Margin="175,124,-6,32" Click="Button_Click" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="5" Grid.Column="2" Content="Apply" Margin="38,124,-69,32" Click="Button_Click_1" />
-
-
-            <Label Grid.Row="5" Grid.Column="1" Name="VideoLabel" Content="" VerticalAlignment="Top" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Foreground="Red" Grid.ColumnSpan="2" Margin="0,163,-69,0" Grid.RowSpan="2" Width="289" />
+            <Label Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="3" Name="VideoLabel" Foreground="Red" Margin="5" HorizontalContentAlignment="Right"/>
         </Grid>
     </StackPanel>
 </Window>

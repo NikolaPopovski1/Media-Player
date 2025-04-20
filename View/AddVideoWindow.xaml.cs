@@ -58,7 +58,6 @@ namespace Media_Player
             DialogResult = false;
         }
 
-
         private void NameTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
         }
