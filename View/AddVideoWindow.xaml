@@ -42,7 +42,8 @@
             <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Name="FileTypeTextBox" TextChanged="FileTypeTextBox_TextChanged" Margin="5"/>
 
             <Label Grid.Row="3" Grid.Column="0" Content="Last modified:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
-            <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Name="LastModifiedTextBox" Margin="5" Height="29"/>
+            <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Name="LastModifiedTextBox"
+            Style="{StaticResource CustomDatePicker}"  Margin="5,5,0,5" Height="29"/>
 
             <Label Grid.Row="4" Grid.Column="0" Content="Thumbnail path:" Foreground="White" Margin="5" VerticalAlignment="Center"/>
             <TextBox Grid.Row="4" Grid.Column="1" Name="ThumbnailPathTextBox" TextChanged="ThumbnailPathTextBox_TextChanged" Margin="5" Height="25.96"/>

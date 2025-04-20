@@ -69,6 +69,44 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="Padding" Value="5"/>
+    </Style>
 
+    <Style TargetType="DatePicker" x:Key="CustomDatePicker" BasedOn="{StaticResource {x:Type DatePicker}}">
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Background" Value="#ffffff"/>
+        <Setter Property="Padding" Value="25,0,0,0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DatePicker">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="35"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePickerTextBox x:Name="PART_TextBox"
+                                       Grid.Column="0"
+                                       Margin="0"
+                                       VerticalContentAlignment="Center"
+                                       Background="{TemplateBinding Background}" />
+                        <Button x:Name="PART_Button"
+                            Grid.Column="1"
+                            Focusable="False"
+                            Background="#333"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            Padding="0"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center">
+                            <Path Width="16" Height="16" Fill="White" Stretch="Uniform"
+                              Data="M3,1 L3,2 L1,2 L1,15 L15,15 L15,2 L13,2 L13,1 L12,1 L12,2 L4,2 L4,1 Z
+                                    M2,5 L14,5 M3,6 L5,6 L5,8 L3,8 Z
+                                    M6,6 L8,6 L8,8 L6,8 Z
+                                    M9,6 L11,6 L11,8 L9,8 Z
+                                    M12,6 L14,6 L14,8 L12,8 Z" />
+                        </Button>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

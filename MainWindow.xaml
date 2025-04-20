@@ -88,11 +88,11 @@
         </StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" MinWidth="150"/>
+                <ColumnDefinition Width="200" MinWidth="150" MaxWidth="300"/>
                 <ColumnDefinition Width="4"/>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="4"/>
-                <ColumnDefinition Width="200"  MinWidth="150"/>
+                <ColumnDefinition Width="200" MinWidth="150" MaxWidth="300"/>
             </Grid.ColumnDefinitions>
             
             <Grid Background="#2B2B2B" Grid.Column="0">
