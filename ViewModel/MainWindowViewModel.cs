@@ -41,7 +41,7 @@ namespace Media_Player.ViewModel
         private DatePicker _lastModifiedTextBox;
         private TextBox _thumbnailPathTextBox;
         private Label _videoLabel;
-        private string _selectedImg =  "./." + THUMBNAIL_DIR + "default.png";
+        private string _selectedImg = "./." + THUMBNAIL_DIR + "default.png";
 
         public TextBox NameTextBox
         {
@@ -303,10 +303,12 @@ namespace Media_Player.ViewModel
             }
         }
 
-        public RelayCommand CloseButton => new RelayCommand(execute => {
+        public RelayCommand CloseButton => new RelayCommand(execute =>
+        {
             System.Windows.Application.Current.Shutdown();
         });
-        public RelayCommand MinimizeButton => new RelayCommand(execute => {
+        public RelayCommand MinimizeButton => new RelayCommand(execute =>
+        {
             System.Windows.Application.Current.MainWindow.WindowState = System.Windows.WindowState.Minimized;
         });
         public RelayCommand ResizeButton => new RelayCommand(
@@ -426,6 +428,7 @@ namespace Media_Player.ViewModel
             execute =>
             {
                 addVideoWindow = new AddVideoWindow(this);
+                SelectedImg = "./." + THUMBNAIL_DIR + "default.png";
                 if (addVideoWindow.ShowDialog() == true)
                 {
                     VideoList.Add(addVideoWindow.VideoFile);
@@ -558,6 +561,78 @@ namespace Media_Player.ViewModel
             if (openThumbnailFileDialog.ShowDialog() == true)
             {
                 ThumbnailPathTextBox.Text = openThumbnailFileDialog.FileName;
+            }
+        }
+        public void ApplyChanges()
+        {
+            string tmpImg = ThumbnailPathTextBox.Text;
+            string tmpVid = FilePathTextBox.Text;
+
+            if (
+                tmpImg != "" && System.IO.File.Exists(tmpImg)
+                && tmpVid != "" && System.IO.File.Exists(tmpVid)
+                && FilePathTextBox.Text.Length >= 4
+                && FilePathTextBox.Text[^4..] == FileTypeTextBox.Text
+                && (
+                    FileTypeTextBox.Text == ".avi"
+                    || FileTypeTextBox.Text == ".mp4"
+                    || FileTypeTextBox.Text == ".mkv"
+                    || FileTypeTextBox.Text == ".flv"
+                    || FileTypeTextBox.Text == ".mov"
+                    )
+                )
+            {
+                SelectedVideo.Path = FilePathTextBox.Text;
+                SelectedVideo.Thumbnail = ThumbnailPathTextBox.Text;
+                SelectedVideo.FileType = FileTypeTextBox.Text;
+
+                VideoLabel.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(0, 255, 0));
+                VideoLabel.Content = "Successfully applied video and thumbnail path!";
+
+                System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+                timer.Interval = TimeSpan.FromSeconds(2);
+                timer.Tick += (s, e) =>
+                {
+                    VideoLabel.Content = "";
+                    VideoLabel.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(255, 0, 0));
+                    timer.Stop();
+                };
+                timer.Start(); 
+            }
+            else
+            {
+                if (
+                    tmpImg == "" && !System.IO.File.Exists(tmpImg)
+                    && tmpVid == "" && !System.IO.File.Exists(tmpVid)
+                    )
+                {
+                    VideoLabel.Content = "Video and thumbnail path is incorrect!";
+                }
+                else if (tmpImg == "" && !System.IO.File.Exists(tmpImg))
+                {
+                    VideoLabel.Content = "Thumbnail path is incorrect!";
+                }
+                else if (tmpVid == "" && !System.IO.File.Exists(tmpVid))
+                {
+                    VideoLabel.Content = "Video path is incorrect!";
+                }
+                else if (
+                    FilePathTextBox.Text[^4..] == FileTypeTextBox.Text
+                    && (
+                        FileTypeTextBox.Text == ".avi"
+                        || FileTypeTextBox.Text == ".mp4"
+                        || FileTypeTextBox.Text == ".mkv"
+                        || FileTypeTextBox.Text == ".flv"
+                        || FileTypeTextBox.Text == ".mov"
+                        )
+                    )
+                {
+                    VideoLabel.Content = "File type incorrect!";
+                }
+                else
+                {
+                    VideoLabel.Content = "Something went wrong!";
+                }
             }
         }
     }

@@ -36,11 +36,11 @@
             <TextBox Grid.Row="0" Grid.Column="1" Name="NameTextBox" Text="{Binding SelectedVideo.Name, UpdateSourceTrigger=PropertyChanged}" TextChanged="NameTextBox_TextChanged" Margin="10,6,-69,6" Grid.ColumnSpan="2"/>
 
             <Label Grid.Row="1" Grid.Column="0" Content="File path:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="1" Grid.Column="1" Name="FilePathTextBox" Text="{Binding SelectedVideo.Path, UpdateSourceTrigger=PropertyChanged}" TextChanged="FilePathTextBox_TextChanged" Margin="10,6,-36,5" Grid.ColumnSpan="2"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Name="FilePathTextBox" Text="{Binding SelectedVideo.Path, Mode=OneWay}" TextChanged="FilePathTextBox_TextChanged" Margin="10,6,-36,5" Grid.ColumnSpan="2"/>
             <Button Grid.Row="1" Grid.Column="2" Name="FilePathButton"  Content="..." Margin="66,6,-69,6" Click="FilePathButton_Click"/>
 
             <Label Grid.Row="2" Grid.Column="0" Content="File type:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="2" Grid.Column="1" Name="FileTypeTextBox" Text="{Binding SelectedVideo.FileType, UpdateSourceTrigger=PropertyChanged}" TextChanged="FileTypeTextBox_TextChanged" Margin="10,6,-69,6" Grid.ColumnSpan="2"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Name="FileTypeTextBox" Text="{Binding SelectedVideo.FileType, Mode=OneWay}" TextChanged="FileTypeTextBox_TextChanged" Margin="10,6,-69,6" Grid.ColumnSpan="2"/>
 
             <Label Grid.Row="3" Grid.Column="0" Content="Last modified:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
             <DatePicker Grid.Row="3" Grid.Column="1" Name="LastModifiedTextBox" 
@@ -49,12 +49,13 @@
 
 
             <Label Grid.Row="4" Grid.Column="0" Content="Thumbnail path:" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" FontSize="11"/>
-            <TextBox Grid.Row="4" Grid.Column="1" Name="ThumbnailPathTextBox" Text="{Binding SelectedVideo.Thumbnail}" TextChanged="ThumbnailPathTextBox_TextChanged" Margin="10,6,-36,8" Grid.ColumnSpan="2"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Name="ThumbnailPathTextBox" Text="{Binding SelectedVideo.Thumbnail, Mode=OneWay}" TextChanged="ThumbnailPathTextBox_TextChanged" Margin="10,6,-36,8" Grid.ColumnSpan="2"/>
             <Button Grid.Row="4" Grid.Column="2" Name="ThumbnailPathButton" Content="..." Margin="66,6,-69,6" RenderTransformOrigin="0.925,-3.277" Click="ThumbnailPathButton_Click"/>
 
             <Image Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Source="{Binding SelectedVideo.Thumbnail, UpdateSourceTrigger=PropertyChanged}" Height="100" Width="160" Margin="0,9,-68,0" Grid.ColumnSpan="2" />
 
-            <Button Grid.Row="5" Grid.Column="2" Content="Close" Margin="38,124,-69,32" Click="Button_Click"/>
+            <Button Grid.Row="5" Grid.Column="1" Content="Close" Margin="175,124,-6,32" Click="Button_Click" Grid.ColumnSpan="2"/>
+            <Button Grid.Row="5" Grid.Column="2" Content="Apply" Margin="38,124,-69,32" Click="Button_Click_1" />
 
 
             <Label Grid.Row="5" Grid.Column="1" Name="VideoLabel" Content="" VerticalAlignment="Top" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Foreground="Red" Grid.ColumnSpan="2" Margin="0,163,-69,0" Grid.RowSpan="2" Width="289" />

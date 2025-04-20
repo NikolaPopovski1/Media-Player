@@ -51,8 +51,8 @@
 
             <Image Grid.Row="5" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Source="{Binding SelectedImg}" Height="100" Width="160" Margin="0,9,-68,0" Grid.ColumnSpan="2" />
 
-            <Button Grid.Row="5" Grid.Column="1" IsCancel="True" Content="Cancel" Margin="184,124,-15,32" Click="Button_Click" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="5" Grid.Column="2" IsDefault="True" Click="Ok_Click" Content="Add" Margin="43,124,-69,32"/>
+            <Button Grid.Row="5" Grid.Column="1" IsCancel="True" Content="Cancel" Margin="174,124,-5,32" Click="Button_Click" Grid.ColumnSpan="2"/>
+            <Button Grid.Row="5" Grid.Column="2" IsDefault="True" Click="Ok_Click" Content="Add" Margin="38,124,-69,32"/>
 
 
             <Label Grid.Row="5" Grid.Column="1" Name="VideoLabel" Content="" VerticalAlignment="Top" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Foreground="Red" Grid.ColumnSpan="2" Margin="0,163,-69,0" Grid.RowSpan="2" Width="289" />

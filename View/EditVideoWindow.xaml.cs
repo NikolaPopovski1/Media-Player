@@ -24,6 +24,10 @@ namespace Media_Player
         {
             Close();
         }
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            vm.ApplyChanges();
+        }
 
         private void ThumbnailPathButton_Click(object sender, RoutedEventArgs e)
         {
