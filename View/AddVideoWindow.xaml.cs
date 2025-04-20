@@ -25,6 +25,13 @@ namespace Media_Player
             vm.SetLastModifiedTextBox(LastModifiedTextBox);
             vm.SetFileTypeTextBox(FileTypeTextBox);
         }
+        private void DodajFilmOkno_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
         public void Ok_Click(object sender, RoutedEventArgs e)
         {
             if (vm.Ok_Click())
@@ -51,13 +58,6 @@ namespace Media_Player
             DialogResult = false;
         }
 
-        private void DodajFilmOkno_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
-            {
-                this.DragMove();
-            }
-        }
 
         private void NameTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {

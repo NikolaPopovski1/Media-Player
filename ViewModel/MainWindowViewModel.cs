@@ -505,7 +505,7 @@ namespace Media_Player.ViewModel
             }
             else
             {
-                VideoLabel.Content = "All fields must be filled!";
+                VideoLabel.Content = "All fields are not filled or video path is incorrect!";
                 return false;
             }
         }

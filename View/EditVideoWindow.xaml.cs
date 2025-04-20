@@ -19,7 +19,14 @@ namespace Media_Player
             vm.SetFileTypeTextBox(FileTypeTextBox);
             vm.SetVideoLabel(VideoLabel);
         }
-
+        
+        private void UrediFilmOkno_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ButtonState == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Close();

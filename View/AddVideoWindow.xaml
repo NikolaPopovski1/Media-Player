@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Media_Player"
         mc:Ignorable="d"
-        Title="DodajFilmOkno" MinHeight="500" MinWidth="550" SizeToContent="WidthAndHeight">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        Title="DodajFilmOkno" MinHeight="520" MinWidth="550"
+        WindowStyle="None" ResizeMode="CanResizeWithGrip"
+        SizeToContent="WidthAndHeight"
+        Background="#1E1E1E" Height="520"
+        MouseDown="DodajFilmOkno_MouseDown">
+
+    <Window.Resources>
+        <ResourceDictionary Source="../ResourceDirectory.xaml" />
+    </Window.Resources>
+
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0">
         <Label Content="Add video" HorizontalAlignment="Center" FontSize="18" Margin="0,10"/>
         <Grid Margin="20" Width="392" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
